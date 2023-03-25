@@ -105,6 +105,7 @@ def on_ui_tabs():
                                 gr.ColorPicker(elem_id="--text-color", label="Text color")
                                 gr.ColorPicker(elem_id="--placeholder-color", label="Placeholder color")
                                 gr.ColorPicker(elem_id="--cancel-color", label="Cancel/Interrupt color")
+                                gr.ColorPicker(elem_id="--generate-color", label="Generate color")
                                 
                             with gr.Accordion(label="Modal", open=True):    
                                 gr.ColorPicker(elem_id="--modal-bg-color", label="Background color")

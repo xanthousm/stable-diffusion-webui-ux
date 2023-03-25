@@ -135,8 +135,8 @@ Requested path was: {f}
 
                 if tabname != "extras":
                     save = gr.Button('Save', elem_id=f'save_{tabname}')
-                    save_zip = gr.Button('Zip', elem_id=f'save_zip_{tabname}')
-
+                    #save_zip = gr.Button('Zip', elem_id=f'save_zip_{tabname}')
+                
                 buttons = parameters_copypaste.create_buttons(["img2img", "inpaint", "extras"])
 
             open_folder_button.click(
@@ -180,20 +180,20 @@ Requested path was: {f}
                         show_progress=False,
                     )
 
-                    save_zip.click(
-                        fn=call_queue.wrap_gradio_call(save_files),
-                        _js="(x, y, z, w) => [x, y, true, selected_gallery_index()]",
-                        inputs=[
-                            generation_info,
-                            result_gallery,
-                            html_info,
-                            html_info,
-                        ],
-                        outputs=[
-                            download_files,
-                            html_log,
-                        ]
-                    )
+                    # save_zip.click(
+                        # fn=call_queue.wrap_gradio_call(save_files),
+                        # _js="(x, y, z, w) => [x, y, true, selected_gallery_index()]",
+                        # inputs=[
+                            # generation_info,
+                            # result_gallery,
+                            # html_info,
+                            # html_info,
+                        # ],
+                        # outputs=[
+                            # download_files,
+                            # html_log,
+                        # ]
+                    # )
 
             else:
                 html_info_x = gr.HTML(elem_id=f'html_info_x_{tabname}')

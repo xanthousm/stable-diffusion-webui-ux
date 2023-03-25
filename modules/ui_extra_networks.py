@@ -63,7 +63,8 @@ class ExtraNetworksPage:
         return ""
 
     def create_html(self, tabname):
-        view = "cards" #shared.opts.extra_networks_default_view
+        #view = "cards" #shared.opts.extra_networks_default_view
+        view = shared.opts.extra_networks_default_view
         items_html = ''
 
         subdirs = {}
