@@ -63,8 +63,7 @@ class ExtraNetworksPage:
         return ""
 
     def create_html(self, tabname):
-        #view = "cards" #shared.opts.extra_networks_default_view
-        view = shared.opts.extra_networks_default_view
+        view = "cards" #shared.opts.extra_networks_default_view
         items_html = ''
 
         subdirs = {}
@@ -125,6 +124,7 @@ class ExtraNetworksPage:
         if onclick is None:
             onclick = '"' + html.escape(f"""return cardClicked({json.dumps(tabname)}, {item["prompt"]}, {"true" if self.allow_negative_prompt else "false"})""") + '"'
 
+        background_image = f"background-image: url(\"{html.escape(preview)}\");" if preview else ''
         metadata_button = ""
         metadata = item.get("metadata")
         if metadata:
@@ -132,7 +132,7 @@ class ExtraNetworksPage:
             metadata_button = f"<div class='metadata-button' title='Show metadata' onclick={metadata_onclick}></div>"
 
         args = {
-            "preview_html": "style='background-image: url(\"" + html.escape(preview) + "\")'" if preview else '',
+            "preview_html": f"style='{background_image}'",
             "prompt": item.get("prompt", None),
             "tabname": json.dumps(tabname),
             "local_preview": json.dumps(item["local_preview"]),

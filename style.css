@@ -2830,9 +2830,9 @@ ul.list-none {
 }
 [id$="2img_extra_networks_row"].aside .extra-network-cards
 {
-	/*grid-template-columns: repeat(auto-fill, var(--extra-networks-card-real-size)); */ 
+	grid-template-columns: repeat(auto-fill, var(--extra-networks-card-real-size));
 	/*grid-template-columns: repeat(calc( var(--extra-networks-card-size) * 4), calc( var(--extra-networks-card-size) * 25%));*/
-	grid-template-columns: repeat(auto-fit, minmax(calc(var(--extra-networks-card-size) * 25%), 1fr));
+	/*grid-template-columns: repeat(auto-fit, minmax(calc(var(--extra-networks-card-size) * 25%), 1fr));*/
 	overflow-y: auto;
 	scroll-snap-type: y mandatory;
 	overflow-x: hidden;
