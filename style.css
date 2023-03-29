@@ -2191,7 +2191,7 @@ div.svelte-10ogue4>*:first-child.livePreview {
 	background-color: var(--main-bg-color);
 	background-repeat: no-repeat;
 	background-position: 0 0;
-	background-image: conic-gradient(transparent, var(--primary-color), transparent 30%);
+	background-image: conic-gradient(transparent, var(--generate-color), transparent 30%);
 	animation: rotate 4s linear infinite;
 }
 	
@@ -2220,7 +2220,7 @@ div.svelte-10ogue4>*:first-child.livePreview {
 	background-color: var(--main-bg-color);
 	background-repeat: no-repeat;
 	background-position: 0 0;
-	background-image: conic-gradient(transparent, var(--primary-color), transparent 30%);
+	background-image: conic-gradient(transparent, var(--generate-color), transparent 30%);
 	animation: rotate 4s linear infinite;
 }
 
@@ -2252,13 +2252,13 @@ div.svelte-10ogue4>*:first-child.livePreview {
 
 .progressDiv .progress {
     width: 0%;
-    height: 3px;
-    background-color: var(--primary-color);
+    height: 4px;
+    background-color: var(--generate-color);
     color: var(--input-color);
     line-height: 20px;
     text-align: right;
     border-radius: 0;
-    padding: 0 2px;
+    padding: 0 4px;
     font-size: 12px;
 	white-space: nowrap;
 	font-weight: 600;
@@ -2630,7 +2630,7 @@ ul.list-none {
 	left:0;
 	top:0;
 	border-radius:0;
-	height:2px;
+	height:4px;
 }
 
 #tab_ti .meta-text{
