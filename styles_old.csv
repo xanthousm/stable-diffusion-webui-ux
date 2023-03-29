@@ -1,6 +1,0 @@
-name,prompt,negative_prompt
-negative-for portraits,,"((((ugly)))), (((duplicate))), ((morbid)), ((mutilated)), [out of frame], extra fingers, mutated hands, ((poorly drawn hands)), ((poorly drawn face)), (((mutation))), (((deformed))), blurry, ((bad	anatomy)),	(((bad	proportions))),	((extra	limbs)),	cloned	face,	(((disfigured))),	gross	proportions,	(malformed	limbs),	((missing	arms)),	((missing	legs)),	(((extra	arms))),	(((extra	legs))),	(fused	fingers),	(too	many	fingers),	(((long	neck))),	(((nsfw))),	((((nude)))),	sexy,	(swimsuit),	(shirtless),	sick,	watermark,	logo,	title,	subtitle,	text,	EasyNegative"
-ai-v1,"bright neon lights monochrome scifi cyber panorama, a young virtual 3d unreal anime woman clothed in white dress, with bright white flowing hair with blue streaks and circuitry, looking at camera turning back",
-positive-v1,"highly detailed, 4 k, hdr, smooth, sharp focus, high resolution",
-positive-v2,"highly detailed, 8k, hdr, smooth, sharp focus, high resolution, volumetric lighting, cinematic composition, trending on artstation, concept art, octane render, intricate",
-anime wanderer,"1girl, young adult woman in the distance with long white hair, turning to face, anime landscape",
