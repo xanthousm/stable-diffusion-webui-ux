@@ -3761,6 +3761,21 @@ footer {
 	display: flex;
 }
 
+.extra-networks .secondary.gradio-button{
+	padding: 0 !important;
+    margin: 0 !important;
+    margin-top: -8px !important;
+}
+
+.extra-networks .additional a{
+	font-size: 125% !important;
+    padding: 0;
+    margin: 0 !important;
+    min-width: 25px;
+    display: inline-block;
+    text-align: center;
+}
+
 
 a[data-tooltip].top:before, a[data-tooltip].top:after {
   transform: translateY(10px);
@@ -4230,9 +4245,14 @@ input[type=range]::-ms-fill-upper {
 [id^="spotlight"].relative {
 	position: relative !important;
 	width:auto;
-	height:50vh;
-	z-index:99;
-	margin-bottom: 1px;
+	height: calc(50vh + 40px);
+    z-index: 99;
+    margin-bottom: 1px;
+    padding-top: 40px;
+}
+
+[id^="spotlight"].relative .spl-pane {
+	top: -20px;
 }
 
 [id^="spotlight"].relative .spl-pane > * {
@@ -4383,6 +4403,7 @@ input[type=range]::-ms-fill-upper {
 .spl-progress {
   position: absolute;
   top: 0;
+  left: -1px;
   width: 100%;
   height: 3px;
   background-color: var(--modal-icon-color);
