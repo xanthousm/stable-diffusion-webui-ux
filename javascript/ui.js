@@ -851,6 +851,38 @@ onUiUpdate(function(){
 	
 	tabsHiddenChange();
 	
+	gradioApp().querySelectorAll('[id^="image_buttons_"] button, #png_2img_results button').forEach(function (elem){
+
+		if(elem.id == "txt2img_tab"){
+			elem.setAttribute("tab-id", 0);
+			elem.addEventListener('click', navTabClicked);
+		}else if(elem.id == "img2img_tab" || elem.id == "inpaint_tab"){
+			elem.setAttribute("tab-id", 1);
+			elem.addEventListener('click', navTabClicked);
+		}if(elem.id == "extras_tab"){
+			elem.setAttribute("tab-id", 2);
+			elem.addEventListener('click', navTabClicked);
+		}		
+	})
+	
+	gradioApp().querySelectorAll('[id$="2img_extra_tabs"] .search').forEach(function (elem){
+		elem.addEventListener('keyup', function (e) {
+			if (e.defaultPrevented) {
+				return; // Do nothing if event already handled
+			}
+			switch (e.code) {
+				case "Escape":
+				if(e.target.value == ""){
+					net_menu.click();
+				}else{
+					e.target.value = "";
+					updateInput(e.target);
+				}
+				break;
+			}
+		})
+	})
+	
 	// add - remove quicksettings
 	const settings_submit = gradioApp().querySelector('#settings_submit');
 	const quick_parent = gradioApp().querySelector("#quicksettings_overflow_container");
