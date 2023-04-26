@@ -721,6 +721,12 @@ div.svelte-1frtwj3 {
 	background-color: var(--ae-panel-bg-color);
 	height: 60px !important;
 }
+.thumbnails button{
+    margin:auto;
+}
+.thumbnails {
+    justify-content: unset !important;
+}
 [id$="2img_gallery"] .thumbnail-small {
     height: auto !important;
 }
@@ -746,6 +752,7 @@ div.svelte-1frtwj3 {
 {
     display:block !important;
 }
+
 
 /* [id$="2img_gallery"] .overflow-y-auto>div:first-child
 {
@@ -1104,6 +1111,15 @@ button.secondary{
 	text-align: center!important;
 }
 
+.gradio-container-3-23-0 .prose code {
+    background-color: var(--ae-panel-bg-color);
+    border-radius: var(--ae-panel-bg-color);
+    border: 1px solid var(--ae-panel-border-color);
+    padding: 0 !important;
+    margin: 0!important;
+    white-space: break-spaces !important;
+}
+
 .wrap.svelte-1p9xokt.svelte-1p9xokt.svelte-1p9xokt label,
 .wrap.svelte-1qxcj04.svelte-1qxcj04.svelte-1qxcj04 label,
 .gradio-container-3-23-0 [type=text], 
@@ -1400,9 +1416,10 @@ display:none !important;
 
 #txtimg_hr_finalres{
     min-height: 0 !important;
-    margin-left: 0;
     outline: 0;
-	
+	position: absolute;
+    margin-top: 2px;
+    margin-left: 60px;
 }
 
 #txtimg_hr_finalres .resolution{
@@ -1410,7 +1427,7 @@ display:none !important;
 }
 
 #txt2img_hr_upscaler{
-	max-width:50%;
+	max-width:100%;
 }
 #txtimg_hr_finalres .prose.gradio-html{
 	padding: var(--ae-inside-padding-size) !important;
@@ -1569,7 +1586,10 @@ button.tool.secondary:hover,
     padding-left: 0 !important;
     padding-right: 0 !important;
 	padding-bottom: 2px !important;
-} 
+}
+.script-alwayson-group .gradio-html + .form{
+	padding-top: 1px;
+}
 
 #mode_img2img > .form{
 	border: 0 !important;
@@ -1609,6 +1629,7 @@ button.tool.secondary:hover,
 	margin-top:-1px !important;
 	margin-bottom:-1px !important;
 }
+
 /***************************/
 /* Generate Interrupt Skip */
 /***************************/
@@ -3413,7 +3434,9 @@ div[data-testid="image"] canvas {
     pointer-events: none;
     display: none;
 }
-
+#tab_img2img div.center.boundedheight.flex{
+	display:block !important;
+}
 /*************/
 /* Spotlight */
 /*************/
