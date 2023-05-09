@@ -1077,6 +1077,7 @@ div.gradio-row>.form{
     border-color: var(--ae-panel-border-color) !important;
     border-radius: var(--ae-panel-border-radius) !important;
     background: var(--ae-panel-border-color) !important;
+	box-shadow: none !important;
     /*width: 100%;
     line-height: var(--line-sm);*/
 }
@@ -1421,6 +1422,16 @@ div.svelte-15lo0d8>.form>* {
     min-width: min(100px,100%);
 }
 
+label {
+	pointer-events:none!important;
+}
+label > * {
+	pointer-events:all;
+}
+span.ml-2 {
+    margin-left: 0 !important;
+    padding-left: var(--size-2);
+}
 /* gradio preloader*/
 .svelte-j1gjts {  
     pointer-events: none!important;
@@ -1480,7 +1491,7 @@ display:none !important;
 }
 [id*="2img_toprow"],
 [id*="2img_toprow"] .gap {
-    gap: var(--ae-inside-padding-size) !important;
+    gap: 1px !important;
 }
 .script-group,
 [id*="_sub-group"]{
@@ -1900,7 +1911,7 @@ button.primary:hover {
 }
 
 [id$="png_2img_settings_scroll"] div[data-testid="image"] img {
-    max-height: unset;;
+    max-height: unset !important;
 }
 
 #pnginfo_image div[data-testid="image"] > div{
@@ -1913,7 +1924,7 @@ button.primary:hover {
 
 #pnginfo_image div[data-testid="image"] {
     max-height: unset;
-	height: 100%;
+	height: 100% !important;
 }
 [id$="png_2img_results"] > div:nth-child(3) {
     display:none;
@@ -2397,6 +2408,18 @@ height: calc(var(--ae-container-height-gap) - 150px) !important;
 	/*padding-bottom: var(--ae-inside-padding-size);*/
 }
 
+#dim_controls > div:first-child{
+	margin-bottom:max(7px, var(--ae-outside-gap-size)) !important;
+}
+input.svelte-1p9xokt.svelte-1p9xokt.svelte-1p9xokt,
+input.svelte-1qxcj04.svelte-1qxcj04.svelte-1qxcj04 {
+    background-color: var(--ae-panel-bg-color);
+}
+
+label.svelte-1p9xokt.svelte-1p9xokt.svelte-1p9xokt,
+label.svelte-1qxcj04.svelte-1qxcj04.svelte-1qxcj04{
+	pointer-events:all !important;
+}
 /*****************/
 /* Quicksettings */
 /*****************/
@@ -3345,6 +3368,7 @@ li.coffee-circle p{
         background-color: var(--ae-input-bg-color);
         border: 1px solid var(--ae-input-border-color);
 		position:relative;
+		border-radius: var(--ae-panel-border-radius);
     }
 	input[type=range]::after {
 		content: '';

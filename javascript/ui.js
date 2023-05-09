@@ -869,9 +869,7 @@ onUiUpdate(function(){
 	const tabitems = gradioApp().querySelectorAll('#tabs > div.tabitem');	
 	
 	function tabOpsSave(setting){
-		const iEvent = new Event("input");		
-		Object.defineProperty(iEvent, "target", {value: setting})		
-		setting.dispatchEvent(iEvent);
+		updateInput(setting);
 	}
 	
 	function tabsHiddenChange() {		
@@ -1024,9 +1022,7 @@ onUiUpdate(function(){
 	const quick_parent = gradioApp().querySelector("#quicksettings_overflow_container");
 	const setting_quicksettings = gradioApp().querySelector('#setting_quicksettings textarea');
 	function saveQuickSettings(){
-		const iEvent = new Event("input");		
-		Object.defineProperty(iEvent, "target", {value: setting_quicksettings})		
-		setting_quicksettings.dispatchEvent(iEvent);		
+		updateInput(setting_quicksettings);		
 		const cEvent = new Event("click");//submit	
 		Object.defineProperty(cEvent, "target", {value: settings_submit})		
 		settings_submit.dispatchEvent(cEvent);
@@ -1077,16 +1073,19 @@ onUiUpdate(function(){
 
 
 	// input release component dispatcher
+	let cached_clone_range;
+	let cached_clone_num;
 	let active_clone_input = [];
 	let focus_input;
 
 	function ui_input_release_component(elem){
-
+		//console.log("ok");
 		if(active_clone_input.length > 0) return;
 		
 		//img2img_width
 		let parent = elem.parentElement;
-		let comp_parent = parent.parentElement.parentElement;		
+		let comp_parent = parent.parentElement.parentElement;
+		
 		if( comp_parent.id == "img2img_width" || 
 		comp_parent.id == "img2img_height" || 
 		comp_parent.id == "img2img_scale" || 
@@ -1110,9 +1109,12 @@ onUiUpdate(function(){
 			updateInput(elem);
 		})
 		
-		clone_num.addEventListener('focus', function (e) {				
-			focus_input = clone_num;					
-		})
+		//clone_num.addEventListener('focus', function (e) {				
+		//	focus_input = clone_num;					
+		//})
+		
+		cached_clone_num = clone_num;
+		cached_clone_range = false;
 		
 		if(label){				
 			let comp_range = comp_parent.querySelector("input[type='range']");
@@ -1129,19 +1131,14 @@ onUiUpdate(function(){
 			})
 			clone_range.addEventListener('change', function (e) {
 				elem.value = clone_range.value;
-				updateInput(elem);	
+				updateInput(elem);
 			})				
 			clone_num.addEventListener('input', function (e) {								
 				clone_range.value = e.target.value;	
 			})
-			const rect = clone_range.getBoundingClientRect();
-			const xoffset = (rect.left + window.scrollX);
-			clone_range.addEventListener('touchmove', function(e) {
-				e.preventDefault();				
-				let percent = parseInt(((e.touches[0].pageX - xoffset) / this.offsetWidth) * 10000) / 10000;				
-				clone_range.value = ( percent * (this.max - this.min)) + parseFloat(this.min);				
-				clone_num.value = clone_range.value;
-			});			
+			
+			cached_clone_range = clone_range;
+			
 		}				
 	}
 	function ui_input_focus_handler(e){
@@ -1153,10 +1150,9 @@ onUiUpdate(function(){
 	
 	function ui_input_release_handler(e){
 		const len = active_clone_input.length;
-		
 		if(focus_input){return;}
-
-		if(len > 0){		
+		if(len > 0){
+			
 			if(e.target.id.indexOf("_clone") == -1){
 				for(var i=len-1; i>=0; i--){
 					let relem = active_clone_input[i];
@@ -1167,7 +1163,6 @@ onUiUpdate(function(){
 			}
 		}
 			
-	
 		let elem_type = e.target.tagName;
 		if(elem_type == "INPUT"){
 			let elem = e.target;			
@@ -1181,13 +1176,77 @@ onUiUpdate(function(){
 			}
 		}
 	}
-	function ui_dispatch_input_release(value){	
+	let timeoutId;
+	
+	function ui_input_touchmove_handler(e){
+		if(cached_clone_range && cached_clone_num){
+			if(e.touches){
+				const rect = cached_clone_range.getBoundingClientRect();
+				const xoffset_min = (rect.left + window.scrollX);
+				//const xoffset_max = (rect.right + window.scrollX);
+				//const yoffset_min = (rect.top + window.scrollY);
+				//const yoffset_max = (rect.bottom + window.scrollY);
+				//if(	e.touches[0].pageY > yoffset_min && e.touches[0].pageY < yoffset_max && e.touches[0].pageX > xoffset_min && e.touches[0].pageX < xoffset_max){						
+					e.preventDefault();
+					const percent = parseInt(((e.touches[0].pageX - xoffset_min) / rect.width) * 10000) / 10000;
+					cached_clone_range.value = ( percent * (cached_clone_range.max - cached_clone_range.min)) + parseFloat(cached_clone_range.min);	
+					cached_clone_num.value = cached_clone_range.value;
+				//}
+			}
+		}
+	}
+	function ui_input_touchend_handler(e){
+		if(cached_clone_range && cached_clone_num){
+			const elem = cached_clone_range.previousElementSibling;
+			elem.value = cached_clone_range.value;			
+			updateInput(elem);			
+		}
+	}
+
+	function slider_contextmenu(e){
+		e.preventDefault();
+	}
+	function slider_touchend(e){
+		if (timeoutId) clearTimeout(timeoutId);
+	}
+	function slider_touchmove(e){
+		if (timeoutId) clearTimeout(timeoutId);
+	}	
+	function slider_touchstart(e){
+		const gcontainer = e.target;
+		gcontainer.removeEventListener('contextmenu',  slider_contextmenu);
+		gcontainer.removeEventListener('touchend',  slider_touchend);
+		gcontainer.removeEventListener('touchmove',  slider_touchmove);
+		gcontainer.removeEventListener('touchend',  ui_input_touchend_handler);
+		gcontainer.removeEventListener('touchmove',  ui_input_touchmove_handler);
+		
+		timeoutId = setTimeout(function() {
+			timeoutId = null;
+			e.stopPropagation();
+			ui_input_release_handler(e);
+			ui_input_touchmove_handler(e);
+			gcontainer.addEventListener('touchmove',  ui_input_touchmove_handler);
+			gcontainer.addEventListener('touchend',  ui_input_touchend_handler);			
+		}, 500);
+		
+		gcontainer.addEventListener('contextmenu',  slider_contextmenu);			
+		gcontainer.addEventListener('touchend',  slider_touchend);
+		gcontainer.addEventListener('touchmove',  slider_touchmove);
+	}
+
+	function ui_dispatch_input_release(value){
+		const gcontainer = gradioApp().querySelector(".gradio-container");
 		if(value){
-			gradioApp().querySelector(".gradio-container").addEventListener('mouseover',  ui_input_release_handler);
-			gradioApp().querySelector(".gradio-container").addEventListener('mousedown',  ui_input_focus_handler);
+			gcontainer.addEventListener('mouseover',  ui_input_release_handler);			
+			gcontainer.addEventListener('touchstart',  slider_touchstart);
 		}else{
-			gradioApp().querySelector(".gradio-container").removeEventListener('mouseover',  ui_input_release_handler);
-			gradioApp().querySelector(".gradio-container").removeEventListener('mousedown',  ui_input_focus_handler);
+			gcontainer.removeEventListener('mouseover',  ui_input_release_handler);						
+			gcontainer.removeEventListener('touchstart',  slider_touchstart);
+			gcontainer.removeEventListener('contextmenu',  slider_contextmenu);
+			gcontainer.removeEventListener('touchend',  slider_touchend);
+			gcontainer.removeEventListener('touchmove',  slider_touchmove);
+			gcontainer.removeEventListener('touchend',  ui_input_touchend_handler);
+			gcontainer.removeEventListener('touchmove',  ui_input_touchmove_handler);			
 		}
 	}
 	gradioApp().querySelector("#setting_ui_dispatch_input_release input").addEventListener('click', function (e) {		
@@ -1419,9 +1478,7 @@ onUiUpdate(function(){
 			//console.log(order_settings);
 			const setting_quicksettings = gradioApp().querySelector('#setting_quicksettings textarea');
 			setting_quicksettings.value = order_settings;
-			const iEvent = new Event("input");		
-			Object.defineProperty(iEvent, "target", {value: setting_quicksettings})		
-			setting_quicksettings.dispatchEvent(iEvent);
+			updateInput(setting_quicksettings);
 			
 			const cEvent = new Event("click");//submit	
 			Object.defineProperty(cEvent, "target", {value: settings_submit})		
@@ -1598,9 +1655,12 @@ function restart_reload(){
 // Simulate an `input` DOM event for Gradio Textbox component. Needed after you edit its contents in javascript, otherwise your edits
 // will only visible on web page and not sent to python.
 function updateInput(target){
-	let e = new Event("input", { bubbles: true })
+	const e = new Event("input", { bubbles: true })
 	Object.defineProperty(e, "target", {value: target})
 	target.dispatchEvent(e);
+	const eb = new Event("blur");		
+	Object.defineProperty(eb, "target", {value: target})		
+	target.dispatchEvent(eb);	
 }
 
 var desiredCheckpointName = null;
@@ -1617,8 +1677,7 @@ function currentImg2imgSourceResolution(_, _, scaleBy){
 function updateImg2imgResizeToTextAfterChangingImage(){
     // At the time this is called from gradio, the image has no yet been replaced.
     // There may be a better solution, but this is simple and straightforward so I'm going with it.
-
-    setTimeout(function() {
+	setTimeout(function() {		
         gradioApp().getElementById('img2img_update_resize_to').click()
     }, 500);
 

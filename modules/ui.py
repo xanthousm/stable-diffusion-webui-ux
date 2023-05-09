@@ -493,7 +493,7 @@ def create_ui():
         dummy_component = gr.Label(visible=False)
         txt_prompt_img = gr.File(label="", elem_id="txt2img_prompt_image", file_count="single", type="binary", visible=False)
 
-        with gr.Row().style(equal_height=False):
+        with gr.Row():
             txt2img_gallery, generation_info, html_info, html_log = create_output_panel("txt2img", opts.outdir_txt2img_samples)
             gr.Row(elem_id="txt2img_splitter")
             
@@ -721,7 +721,7 @@ def create_ui():
 
         img2img_prompt_img = gr.File(label="", elem_id="img2img_prompt_image", file_count="single", type="binary", visible=False)
 
-        with gr.Row().style(equal_height=False):
+        with gr.Row():
         
             img2img_gallery, generation_info, html_info, html_log = create_output_panel("img2img", opts.outdir_img2img_samples)
             gr.Row(elem_id="img2img_splitter")
@@ -822,7 +822,7 @@ def create_ui():
                                             #with gr.Column(elem_id="img2img_column_size"):
                                         selected_scale_tab = gr.State(value=0)
 
-                                        with gr.Tabs():
+                                        with gr.Tabs(elem_id="scale_tabs"):
                                             with gr.Tab(label="Resize to") as tab_scale_to:
                                                 with gr.Row():                                                      
                                                     width = gr.Slider(minimum=64, maximum=2048, step=8, label="Width", value=512, elem_id="img2img_width")
