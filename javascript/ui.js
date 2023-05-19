@@ -281,11 +281,6 @@ function restoreProgressImg2img() {
   return id;
 }
 
-onUiLoaded(function () {
-  showRestoreProgressButton("txt2img", localStorage.getItem("txt2img_task_id"));
-  showRestoreProgressButton("img2img", localStorage.getItem("img2img_task_id"));
-});
-
 function modelmerger() {
   var id = randomId();
   requestProgress(
@@ -334,16 +329,13 @@ function recalculate_prompts_img2img() {
   return args_to_array(arguments);
 }
 
-function recalculate_prompts_inpaint() {
-  recalculatePromptTokens("img2img_prompt");
-  recalculatePromptTokens("img2img_neg_prompt");
-  return args_to_array(arguments);
-}
-
 let selectedTabItemId = "tab_txt2img";
 let opts = {};
 
-onUiUpdate(function () {
+onUiLoaded(function () {
+  showRestoreProgressButton("txt2img", localStorage.getItem("txt2img_task_id"));
+  showRestoreProgressButton("img2img", localStorage.getItem("img2img_task_id"));
+
   if (Object.keys(opts).length != 0) return;
 
   var json_elem = gradioApp().getElementById("settings_json");
@@ -680,6 +672,8 @@ onUiUpdate(function () {
     }
   }
 
+
+
   // close aside views
   function closeAsideViews(menu) {
     if (quick_menu != menu && quick_menu_open) quick_menu.click();
@@ -750,12 +744,18 @@ onUiUpdate(function () {
   quick_menu.addEventListener("click", toggleQuickMenu);
 
   // extra networks nav menu
+  function clickedOutside(e) {
+    //console.log(e.target.getAttribute('data-testid'));
+    if(e.target.getAttribute('data-testid') != "textbox" && e.target.getAttribute('data-testid')){
+      if (net_menu_open && e.target.closest('[id$="2img_settings_scroll"]')) net_menu.click();
+    }
+  }
   function toggleNetMenu(e) {
     closeAsideViews(net_menu);
     net_menu_open = !net_menu_open;
     e.preventDefault();
     e.stopPropagation();
-    toggleMenu(net_menu_open, net_menu, net_container, null);
+    toggleMenu(net_menu_open, net_menu, net_container, clickedOutside);
   }
   net_menu.addEventListener("click", toggleNetMenu);
   gradioApp()
@@ -801,12 +801,13 @@ onUiUpdate(function () {
   disabled_extensions(theme_ext.checked);
 
   //
+  /*
   function attachAccordionListeners(elem) {
     elem.querySelectorAll(".gradio-accordion > div.wrap").forEach((elem) => {
       elem.addEventListener("click", toggleAccordion);
     });
   }
-  function toggleAccordion(e) {
+   function toggleAccordion(e) {
     //e.preventDefault();
     //e.stopPropagation();
     //e.stopImmediatePropagation();
@@ -843,6 +844,7 @@ onUiUpdate(function () {
   }
 
   attachAccordionListeners(gradioApp());
+  */
   // additional ui styles
   let styleobj = {};
   const r = gradioApp();
@@ -1236,7 +1238,7 @@ onUiUpdate(function () {
     setting_quicksettings.value = field_settings;
     //addModelCheckpoint();
     saveQuickSettings();
-    //console.log(section + " - "+ id + " - " + checked);
+    console.log(section + " - "+ id + " - " + checked);
   }
   gradioApp()
     .querySelectorAll('[id*="add2quick_"]')
@@ -1488,6 +1490,21 @@ onUiUpdate(function () {
       ui_show_range_ticks(e.target.checked, true);
     });
   ui_show_range_ticks(opts.ui_show_range_ticks);
+
+  const gradio_main = gradioApp().querySelector(".gradio-container > div.main");
+  function ui_no_slider_layout(value) {
+    if (value) {
+      gradio_main.classList.add("no-slider-layout");
+    } else {
+      gradio_main.classList.remove("no-slider-layout");
+    }
+  }
+  gradioApp()
+    .querySelector("#setting_ui_no_slider_layout input")
+    .addEventListener("click", function (e) {
+      ui_no_slider_layout(e.target.checked, true);
+    });
+  ui_no_slider_layout(opts.ui_no_slider_layout);
 
   // draggable reordable quicksettings
   const container = gradioApp().querySelector(
@@ -1934,9 +1951,20 @@ function restart_reload() {
   document.body.innerHTML =
     '<div class="loader"><div class="circles"><span class="one"></span><span class="two"></span><span class="three"></span></div><div class="pacman"><span class="top"></span><span class="bottom"></span><span class="left"></span><div class="eye"></div></div></div>';
 
-  setTimeout(function () {
-    location.reload();
-  }, 2000);
+  var requestPing = function () {
+    requestGet(
+      "./internal/ping",
+      {},
+      function (data) {
+        location.reload();
+      },
+      function () {
+        setTimeout(requestPing, 500);
+      }
+    );
+  };
+
+  setTimeout(requestPing, 2000);
 
   return [];
 }
