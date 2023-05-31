@@ -69,12 +69,12 @@ License: GNU General Public License
       (
         var(--ae-top-header-height) + var(--ae-footer-height) +
           var(--ae-accordion-header-height) + var(--ae-outside-gap-size) * 4 +
-          34px
+          36px
       )
   );
 }
 
-@media only screen and (max-width: 680px) {
+@media only screen and (max-width: 860px) {
   :root {
     --ae-outside-gap-size: var(--ae-mobile-outside-gap-size);
     --ae-inside-padding-size: var(--ae-mobile-inside-padding-size);
@@ -108,7 +108,7 @@ body {
 /*********/
 /* Icons */
 /*********/
-
+[id*="2img_generate_forever"],
 [id^="refresh_"],
 [id$="_refresh"],
 [id$="_clear_prompt"],
@@ -131,7 +131,7 @@ body {
   position: relative;
   font-size: 0 !important;
 }
-
+[id*="2img_generate_forever"]::before,
 [id$="_refresh"]::before,
 [id^="refresh_"]::before,
 [id$="_clear_prompt"]::before,
@@ -165,7 +165,7 @@ body {
   background-color: var(--ae-icon-color);
   border-radius: var(--ae-panel-border-radius);
 }
-
+[id*="2img_generate_forever"]:hover::before,
 [id$="_refresh"]:hover::before,
 [id^="refresh_"]:hover::before,
 [id$="_clear_prompt"]:hover::before,
@@ -202,7 +202,12 @@ body {
   -webkit-mask: url(./file=html/svg/refresh-line.svg) no-repeat 50% 50%;
   mask: url(./file=html/svg/refresh-line.svg) no-repeat 50% 50%;
 }
-
+[id$="2img_generate_forever"]::before {
+  -webkit-mask: url(./file=html/svg/infinity-fill.svg) no-repeat 50% 50%;
+  mask: url(./file=html/svg/infinity-fill.svg) no-repeat 50% 50%;
+  width: 90%;
+  height: 90%;
+}
 [id$="_clear_prompt"]::before {
   -webkit-mask: url(./file=html/svg/delete-bin-5-line.svg) no-repeat 50% 50%;
   mask: url(./file=html/svg/delete-bin-5-line.svg) no-repeat 50% 50%;
@@ -1180,7 +1185,7 @@ button.secondary {
   text-align: center !important;
 }
 
-.gradio-container-3-29-0 .prose * {
+.gradio-container-3-31-0 .prose * {
   color: var(--ae-label-color);
 }
 
@@ -1195,34 +1200,34 @@ button.secondary {
 
 .wrap.svelte-1p9xokt.svelte-1p9xokt.svelte-1p9xokt label,
 .wrap.svelte-1qxcj04.svelte-1qxcj04.svelte-1qxcj04 label,
-.gradio-container-3-29-0 [type="text"],
-.gradio-container-3-29-0 [type="email"],
-.gradio-container-3-29-0 [type="url"],
-.gradio-container-3-29-0 [type="password"],
-.gradio-container-3-29-0 [type="number"],
-.gradio-container-3-29-0 [type="date"],
-.gradio-container-3-29-0 [type="datetime-local"],
-.gradio-container-3-29-0 [type="month"],
-.gradio-container-3-29-0 [type="search"],
-.gradio-container-3-29-0 [type="tel"],
-.gradio-container-3-29-0 [type="time"],
-.gradio-container-3-29-0 [type="week"],
-.gradio-container-3-29-0 [multiple],
-.gradio-container-3-29-0 textarea,
-.gradio-container-3-29-0 select {
+.gradio-container-3-31-0 [type="text"],
+.gradio-container-3-31-0 [type="email"],
+.gradio-container-3-31-0 [type="url"],
+.gradio-container-3-31-0 [type="password"],
+.gradio-container-3-31-0 [type="number"],
+.gradio-container-3-31-0 [type="date"],
+.gradio-container-3-31-0 [type="datetime-local"],
+.gradio-container-3-31-0 [type="month"],
+.gradio-container-3-31-0 [type="search"],
+.gradio-container-3-31-0 [type="tel"],
+.gradio-container-3-31-0 [type="time"],
+.gradio-container-3-31-0 [type="week"],
+.gradio-container-3-31-0 [multiple],
+.gradio-container-3-31-0 textarea,
+.gradio-container-3-31-0 select {
   line-height: 1.5rem;
   padding: 4px 8px;
 }
 
-.gradio-container-3-29-0 [type="checkbox"],
-.gradio-container-3-29-0 [type="radio"] {
+.gradio-container-3-31-0 [type="checkbox"],
+.gradio-container-3-31-0 [type="radio"] {
   background-color: var(--ae-input-bg-color);
   border: 1px solid var(--ae-input-border-color);
   border-radius: var(--ae-panel-border-radius);
 }
 
-.gradio-container-3-29-0 [type="checkbox"]:checked,
-.gradio-container-3-29-0 [type="radio"]:checked {
+.gradio-container-3-31-0 [type="checkbox"]:checked,
+.gradio-container-3-31-0 [type="radio"]:checked {
   background-color: var(--ae-primary-color);
 }
 
@@ -1249,7 +1254,7 @@ button.secondary {
   min-width: unset !important;
 }
 .no-slider-layout [id$="2img_settings"] {
-  min-width: min(320px, 100%) !important;
+  min-width: min(420px, 100%) !important;
 }
 
 .no-slider-layout div.block.padded.gradio-slider {
@@ -1592,7 +1597,7 @@ span.ml-2 {
   padding: var(--ae-inside-padding-size) !important;
 }
 
-.gradio-container-3-29-0 .prose {
+.gradio-container-3-31-0 .prose {
   min-height: unset !important;
 }
 
@@ -1806,6 +1811,12 @@ button.tool.secondary:hover,
   padding: 0;
 }
 
+#img2img_dimensions_row{
+  min-width:unset !important;
+  max-width:34px;
+}
+
+[id$="2img_detect_image_size_btn"],
 [id$="2img_res_switch_btn"] {
   margin: -1px !important;
 }
@@ -1851,12 +1862,29 @@ button.primary:hover {
   min-height: var(--ae-generate-button-height);
 }
 
+button[id$="_generate_forever"] {
+  flex-grow: 0;
+  min-width: unset;
+}
+
+button[id$="_generate_forever"].active {
+  background: var(--ae-primary-color) !important;
+  color: var(--ae-input-bg-color) !important;
+}
+
+button[id$="_generate_forever"].active:before {
+  background: var(--ae-icon-hover-color) !important;
+}
+
 [id$="_interrupt"].secondary,
 [id$="_skip"].secondary {
+  min-height: var(--ae-generate-button-height);
   background-color: var(--ae-input-bg-color);
+  /*
   position: absolute;
   width: 50%;
   height: 100%;
+  */
   display: none;
 }
 
@@ -2858,6 +2886,12 @@ label.svelte-1qxcj04.svelte-1qxcj04.svelte-1qxcj04 {
 /*************/
 /* settings  */
 /*************/
+#row_setting_quicksettings_list,
+#row_setting_gradio_theme,
+#row_setting_hidden_tabs
+{
+display:none !important;
+}
 pre {
   white-space: pre-wrap;
   /* css-3 */
@@ -2905,7 +2939,7 @@ pre {
   float: left;
   display: block;
   margin-left: 0;
-  width: 10em;
+  width: 12em;
 }
 
 #settings > div.tab-nav button {
@@ -2965,7 +2999,7 @@ pre {
   opacity: 0.98;
 }
 
-@media only screen and (max-width: 680px) {
+@media only screen and (max-width: 860px) {
   /* For tablets: */
   [id$="_splitter"] {
     display: none !important;
@@ -3626,7 +3660,7 @@ input[type="range"]::-moz-range-track {
   background-color: var(--ae-input-bg-color);
 }
 
-input[type=range]::after:: {
+input[type=range]::after {
   content: "";
   position: absolute;
   height: 13px;
